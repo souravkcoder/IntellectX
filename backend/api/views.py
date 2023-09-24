@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from .models import Article
-from .serializers import ArticleSerializer,UserSerializer
+from .models import Article,Course,Subtopic
+from .serializers import ArticleSerializer,UserSerializer,CourseSerializer,SubtopicSerializer
 from django.http import JsonResponse
 from rest_framework.parsers import JSONParser
 from django.views.decorators.csrf import csrf_exempt
@@ -26,6 +26,20 @@ class ArticleviewSet(viewsets.ModelViewSet):
     serializer_class=ArticleSerializer
     authentication_classes=(TokenAuthentication,)
 
+
+class CourseviewSet(viewsets.ModelViewSet):
+    queryset=Course.objects.all()
+    serializer_class=CourseSerializer
+    def post(self, request, format=None):
+        serializer = CourseSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class SubtopicviewSet(viewsets.ModelViewSet):
+    queryset=Subtopic.objects.all()
+    serializer_class=SubtopicSerializer
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset=User.objects.all()

@@ -74,7 +74,7 @@ const SignupPage = () => {
                                 <p><input type="checkbox"/>Remember Me</p>
                                 <p>Forget password</p>
                             </div> */}
-                            <button className='w-2/5 lg:w-4/6 my-5 py-2 bg-cyan-300 shadow-lg shadow-cyan-400/30 hover:bg-teal-400 text-1xl font-semibold rounded-lg' onClick={SignUpBtn}>Sign up</button>
+                            <button className=' w-2/5 lg:w-4/6 my-5 py-2 bg-cyan-300 shadow-lg shadow-cyan-400/30 hover:bg-teal-400 text-1xl font-semibold rounded-lg' onClick={SignUpBtn}>Sign up</button>
                             <p className='text-1xl'>Already have an Account? Then {" "}
                                  <Link className='font-semibold hover:text-emerald-800 hover:underline' to="/login"> Login</Link>{" "} </p>
                     </div>
