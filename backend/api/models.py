@@ -18,9 +18,9 @@ class Course(models.Model):
         return self.topicName
 
 class Subtopic(models.Model):
-    subtopicsName=models.CharField(max_length=200,blank=True)
+    subtopicsName=models.CharField(max_length=200)
     subtopicDescription=models.TextField(blank=True)
-    topicid=models.ForeignKey("Course", on_delete=models.CASCADE,blank=True)
+    topicid=models.ForeignKey("Course", on_delete=models.CASCADE)
 
     def __str__(self):
         return self.subtopicsName
@@ -29,3 +29,4 @@ class UserTakeCourse(models.Model):
     userid=models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE)
     courseid=models.ForeignKey("Course",on_delete=models.CASCADE)
     verified=models.BooleanField(default=False)
+

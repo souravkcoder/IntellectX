@@ -11,7 +11,10 @@ router.register(r'course', views.CourseviewSet,basename="course")
 urlpatterns = [
     path("",views.index ),
     path("",include(router.urls) ),
-    path("sub-add",views.subtopicadd )
+    path("sub-add",views.subtopicadd ),
+    path("user-course",views.usertakecourse),
+    path("course-list",views.courselist),
+    path("fullcourse",views.fullcourse)
 
     
 ]

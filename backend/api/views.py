@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from .models import Article,Course,Subtopic
+from .models import *
 from .serializers import ArticleSerializer,UserSerializer,CourseSerializer,SubtopicSerializer
 from django.http import JsonResponse
 from rest_framework.parsers import JSONParser
@@ -64,6 +64,44 @@ def subtopicadd(request):
         data_serialized.save()
         return Response({"message":"Data Saved Successfully.","data":data_serialized.data})
     return Response({"message":"Error Encountered.","errors":data_serialized.errors})
+
+@api_view(['POST'])
+@authentication_classes([TokenAuthentication])
+def usertakecourse(request):
+    topic_name=request.data['topicName']
+    username=request.data['username']
+    tpid=Course.objects.get(topicName=topic_name)
+    userid=User.objects.get(username=username)
+    res=UserTakeCourse(userid=userid,courseid=tpid)
+    res.save()
+    return Response({"message":"Data Saved Successfully."})
+
+@api_view(['GET'])
+@authentication_classes([TokenAuthentication])
+def courselist(request):
+    username=request.data['username']
+    userid=User.objects.get(username=username)
+    utc=UserTakeCourse.objects.filter(userid=userid)
+    individual_objects=[]
+    for i in utc:
+        courseid=i.courseid
+        course_obj=Course.objects.get(topicName=courseid)
+        individual_objects.append(course_obj)
+    result=CourseSerializer(individual_objects,many=True)
+    return Response({"message":"Data Saved Successfully.","data":result.data})
+
+@api_view(['GET'])
+@authentication_classes([TokenAuthentication])
+def fullcourse(request):
+    topic_name=request.data['topicName']
+    tpid=Course.objects.get(topicName=topic_name)
+    subtopics=Subtopic.objects.filter(topicid=tpid)
+    result=SubtopicSerializer(subtopics,many=True)
+    return Response({"message":"Data Saved Successfully.","data":result.data})
+
+
+
+
 
 
 class SubtopicGeneratorAPIView(APIView):
