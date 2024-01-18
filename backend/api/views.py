@@ -1,22 +1,24 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from .models import Article
-from .serializers import ArticleSerializer,UserSerializer
+from .models import Article,Course,Subtopic
+from .serializers import ArticleSerializer,UserSerializer,CourseSerializer,SubtopicSerializer
 from django.http import JsonResponse
 from rest_framework.parsers import JSONParser
 from django.views.decorators.csrf import csrf_exempt
 
 from django.http import Http404
 from rest_framework.views import APIView
+from rest_framework.decorators import api_view,authentication_classes
 from rest_framework.response import Response
 from rest_framework import status
-
+from rest_framework.permissions import IsAuthenticated
 
 from rest_framework import viewsets
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
 
+from api.utils import course_generator, subtopic_generator, class_generator
 
 from django.contrib.auth.models import User
 # Create your views here.
@@ -27,6 +29,77 @@ class ArticleviewSet(viewsets.ModelViewSet):
     authentication_classes=(TokenAuthentication,)
 
 
+class CourseviewSet(viewsets.ModelViewSet):
+    queryset=Course.objects.all()
+    serializer_class=CourseSerializer
+    def post(self, request, format=None):
+        serializer = CourseSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+"""topic_name = validated_data.get('topicName')
+        subtopics=subtopic_generator(topic_name)
+        tpid=Course.objects.get(topic_name)
+        for i, subtopic in enumerate(subtopics, start=1):
+            topic= f"Subtopic {i}: {subtopic}"
+            topic_des=class_generator(topic)
+            cg=Subtopic(subtopicsName=topic,subtopicDescription=topic_des,topicid=tpid)
+            cg.save()"""
+@api_view(['POST'])
+@authentication_classes([TokenAuthentication])
+def subtopicadd(request):
+    topic_name=request.data['topicName']
+    subtopics=subtopic_generator(topic_name)
+    tpid=Course.objects.get(topicName=topic_name)
+    for i, subtopic in enumerate(subtopics, start=1):
+            topic= f"Subtopic {i}: {subtopic}"
+            topic_des=class_generator(topic)
+            cg=Subtopic(subtopicsName=topic,subtopicDescription=topic_des,topicid=tpid)
+            cg.save()
+    return Response({"message":"Data Saved Successfully."})
+    data_serialized=SubtopicSerializer(cg)
+    if(data_serialized.is_valid()):
+        data_serialized.save()
+        return Response({"message":"Data Saved Successfully.","data":data_serialized.data})
+    return Response({"message":"Error Encountered.","errors":data_serialized.errors})
+
+
+class SubtopicGeneratorAPIView(APIView):
+    def post(self, request, *args, **kwargs):
+        topic_name = request.data.get('topicName')
+
+        try:
+            course = Course.objects.get(topicName=topic_name)
+        except Course.DoesNotExist:
+            return Response({'error': f'Course with topicName {topic_name} does not exist'}, status=status.HTTP_404_NOT_FOUND)
+
+        subtopics_data = subtopic_generator(topic_name)
+
+        subtopics = []
+        for subtopic_data in subtopics_data:
+            subtopic_data['topicid'] = course.id
+            serializer = SubtopicSerializer(subtopicsName=subtopic_data,subtopicDescription="topic_des",topicid=course)
+            if serializer.is_valid():
+                serializer.save()
+                subtopics.append(serializer.data)
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        return Response({'subtopics': subtopics}, status=status.HTTP_201_CREATED)
+
+class SubtopicviewSet(viewsets.ModelViewSet):
+    queryset=Subtopic.objects.all()
+    serializer_class=SubtopicSerializer
+    def post(self, request, format=None):
+        serializer = SubtopicSerializer(data=request.data)
+        
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
 class UserViewSet(viewsets.ModelViewSet):
     queryset=User.objects.all()
     serializer_class=UserSerializer
