@@ -1,5 +1,5 @@
 // import React from 'react';
-import { json } from 'react-router-dom';
+import { Link, json } from 'react-router-dom';
 import loginImg from '../../images/signupImg4.jpg';
 // import Header from '../Header/Header';
 import { useState,useEffect } from 'react';
@@ -61,15 +61,15 @@ useEffect(()=>{
                 <div className='grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 h-auto w-full mx-auto my-auto'>
                     {/* <h1>THis is Login page</h1> */}
                     <div className='hidden sm:block sm:mb-1'>
-                        <img className='h-full w-full object-cover' src={loginImg} alt="image" />
+                        <img className='h-96 w-full object-cover' src={loginImg} alt="image" />
                     </div>
  
 
-                    <div className="bg-cyan-600 flex flex-col justify-center">
-                            <h2 className='text-4xl dark:text-white font-bold text-center'>Welcome Back</h2>
+                    <div className="bg-cyan-600 flex flex-col justify-center mb-6">
+                            <h2 className='text-4xl dark:text-white font-bold text-center mt-8'>Welcome Back</h2>
                             <p>Please Enter your credentials to <span className='font-semibold'>Login</span></p>
                             {incorr}
-                            <div className='flex flex-col text-gray-200 py-1 px-12 lg:px-32'>
+                            <div className='flex flex-col text-gray-200 py-1 px-12 lg:px-32 mt-1'>
                                 <label htmlFor="">User Name</label>
                                 <input value={username} onChange={e=>setUsername(e.target.value)}className='rounded-lg bg-gray-700 mt-1 p-2 focus:border-blue-500 focus:bg-gray-800 focus:outline-none' type="text" />
                             </div>
@@ -79,9 +79,9 @@ useEffect(()=>{
                             </div>
                             <div className='flex justify-between text-gray-200  py-2 px-12 lg:px-32'>
                                 <p><input type="checkbox"/>Remember Me</p>
-                                <p>Forget password</p>
+                                <Link className='font-semibold hover:text-emerald-800 hover:underline' >Forget password</Link>
                             </div>
-                            <button className='w-2/5 lg:w-4/6 my-5 py-2 bg-cyan-300 shadow-lg shadow-cyan-400/30 hover:bg-teal-400 text-1xl font-semibold rounded-lg' onClick={loginBtn}>Log in</button>
+                            <button className='w-2/5 lg:w-2/4 mx-auto my-5 py-2 bg-cyan-300 shadow-lg shadow-cyan-400/30 hover:bg-teal-400 text-1xl font-semibold rounded-lg' onClick={loginBtn}>Log in</button>
                     </div>
                 </div>
             </div>
