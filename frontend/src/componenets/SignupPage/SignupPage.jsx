@@ -60,7 +60,7 @@ const SignupPage = () => {
  
 
                     <div className="bg-cyan-600 flex flex-col justify-center">
-                            <h2 className='text-4xl dark:text-white font-bold text-center'>Sign Up</h2>
+                            <h2 className='text-4xl dark:text-white font-bold text-center' >Sign Up</h2>
                             {incorr}
                             <div className='flex flex-col text-gray-200 py-2 px-12 lg:px-32'>
                                 <label htmlFor="">User Name</label>
@@ -69,12 +69,15 @@ const SignupPage = () => {
                             <div className='flex flex-col text-gray-200 py-1 px-12 lg:px-32'>
                                 <label htmlFor="">Password</label>
                                 <input value={password} onChange={e=>setPwd(e.target.value) } className='rounded-lg bg-gray-700 mt-1 p-2 focus:border-blue-500 focus:bg-gray-800 focus:outline-none' type="password" />
+
+                                <button className=' w-100% lg:w-6/6 my-5 py-2 bg-cyan-500 shadow-lg shadow-cyan-400/30 hover:bg-teal-500 text-1xl font-semibold rounded-lg' onClick={SignUpBtn}>Sign up</button>
+
                             </div>
                             {/* <div className='flex justify-between text-gray-200  py-2 px-12 lg:px-32'>
                                 <p><input type="checkbox"/>Remember Me</p>
                                 <p>Forget password</p>
                             </div> */}
-                            <button className=' w-2/5 lg:w-4/6 my-5 py-2 bg-cyan-300 shadow-lg shadow-cyan-400/30 hover:bg-teal-400 text-1xl font-semibold rounded-lg' onClick={SignUpBtn}>Sign up</button>
+                            
                             <p className='text-1xl'>Already have an Account? Then {" "}
                                  <Link className='font-semibold hover:text-emerald-800 hover:underline' to="/login"> Login</Link>{" "} </p>
                     </div>

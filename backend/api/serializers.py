@@ -2,7 +2,7 @@ from rest_framework import serializers
 from .models import Article,Course,Subtopic,UserTakeCourse
 from django.contrib.auth.models import User
 from rest_framework.authtoken.views import Token
-from api.utils import course_generator
+from api.utils import course_generator, subtopic_generator, class_generator
 class ArticleSerializer(serializers.ModelSerializer):
     class Meta:
         model=Article
@@ -21,11 +21,20 @@ class CourseSerializer(serializers.ModelSerializer):
         cg.save()
         return cg
 
+class GetTopicSerializer(serializers.Serializer):
+    topicName=serializers.CharField()
+
 
 class SubtopicSerializer(serializers.ModelSerializer):
     class Meta:
         model=Subtopic
         fields=['id', 'subtopicsName', 'subtopicDescription','topicid']
+        extra_kwargs={
+            "subtopicDescription":{"read_only":True},
+            "topicid":{"read_only":True},
+            "subtopicsName":{"read_only":True},
+
+        }
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
