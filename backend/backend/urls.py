@@ -20,6 +20,6 @@ from api.views import CustomAuthToken
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("auth/", include('api.urls')),
+    path("api/", include('api.urls')),
     path('autht/', CustomAuthToken.as_view() )
 ]

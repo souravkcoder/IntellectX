@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Article,Course,Subtopic,UserTakeCourse
+from .models import *
 from django.contrib.auth.models import User
 from rest_framework.authtoken.views import Token
 from api.utils import course_generator, subtopic_generator, class_generator

@@ -39,14 +39,6 @@ class CourseviewSet(viewsets.ModelViewSet):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-"""topic_name = validated_data.get('topicName')
-        subtopics=subtopic_generator(topic_name)
-        tpid=Course.objects.get(topic_name)
-        for i, subtopic in enumerate(subtopics, start=1):
-            topic= f"Subtopic {i}: {subtopic}"
-            topic_des=class_generator(topic)
-            cg=Subtopic(subtopicsName=topic,subtopicDescription=topic_des,topicid=tpid)
-            cg.save()"""
 @api_view(['POST'])
 @authentication_classes([TokenAuthentication])
 def subtopicadd(request):
@@ -59,11 +51,6 @@ def subtopicadd(request):
             cg=Subtopic(subtopicsName=topic,subtopicDescription=topic_des,topicid=tpid)
             cg.save()
     return Response({"message":"Data Saved Successfully."})
-    data_serialized=SubtopicSerializer(cg)
-    if(data_serialized.is_valid()):
-        data_serialized.save()
-        return Response({"message":"Data Saved Successfully.","data":data_serialized.data})
-    return Response({"message":"Error Encountered.","errors":data_serialized.errors})
 
 @api_view(['POST'])
 @authentication_classes([TokenAuthentication])
@@ -88,7 +75,7 @@ def courselist(request):
         course_obj=Course.objects.get(topicName=courseid)
         individual_objects.append(course_obj)
     result=CourseSerializer(individual_objects,many=True)
-    return Response({"message":"Data Saved Successfully.","data":result.data})
+    return Response({"message":"Data Got Successfully.","data":result.data})
 
 @api_view(['GET'])
 @authentication_classes([TokenAuthentication])
@@ -97,7 +84,7 @@ def fullcourse(request):
     tpid=Course.objects.get(topicName=topic_name)
     subtopics=Subtopic.objects.filter(topicid=tpid)
     result=SubtopicSerializer(subtopics,many=True)
-    return Response({"message":"Data Saved Successfully.","data":result.data})
+    return Response({"message":"Data Got Successfully.","data":result.data})
 
 
 
@@ -160,50 +147,3 @@ class CustomAuthToken(ObtainAuthToken):
         })
 
 
-'''
-
-class ArticleDetail(APIView):
-    """
-    Retrieve, update or delete a snippet instance.
-    """
-    def get_object(self, pk):
-        try:
-            return Article.objects.get(pk=pk)
-        except Article.DoesNotExist:
-            raise Http404
-
-    def get(self, request, pk, format=None):
-        snippet = self.get_object(pk)
-        serializer = ArticleSerializer(snippet)
-        return Response(serializer.data)
-
-    def put(self, request, pk, format=None):
-        snippet = self.get_object(pk)
-        serializer = ArticleSerializer(snippet, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def delete(self, request, pk, format=None):
-        snippet = self.get_object(pk)
-        snippet.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
-class ArticleList(APIView):
-    """
-    List all snippets, or create a new snippet.
-    """
-    def get(self, request, format=None):
-        articles = Article.objects.all()
-        serializer = ArticleSerializer(articles, many=True)
-        return Response(serializer.data)
-
-    def post(self, request, format=None):
-        serializer = ArticleSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-        
-'''

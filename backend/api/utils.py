@@ -5,6 +5,7 @@ import re
 openai.api_key=settings.APIKEY
 
 def course_generator(inp):
+    '''
     msg2=f" Is {inp} a learning topic?? Answer in only yes or no."
     response = openai.ChatCompletion.create(
     model="gpt-3.5-turbo",
@@ -25,8 +26,9 @@ def course_generator(inp):
        
         ])
         ans=res['choices'][0]['message']['content']
+        '''
 
-    
+    ans="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
     return ans
 
 def subtopic_generator(inp):

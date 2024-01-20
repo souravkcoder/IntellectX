@@ -9,7 +9,7 @@ export default function Articles() {
     let final_token=token['mytoken']
     let naviagte=useNavigate()
     useEffect(() => {
-        fetch('http://127.0.0.1:8000/auth/article/',{
+        fetch('http://127.0.0.1:8000/api/article/',{
             'method':'GET',
             headers:{
                 'Content-Type':'application/json',
