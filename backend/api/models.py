@@ -13,6 +13,7 @@ class Article(models.Model):
 class Course(models.Model):
     topicName=models.CharField(max_length=200,unique=True)
     topicDescription=models.TextField()
+    verified=models.BooleanField(default=False)
 
     def __str__(self):
         return self.topicName

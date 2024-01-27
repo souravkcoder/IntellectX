@@ -11,7 +11,7 @@ class ArticleSerializer(serializers.ModelSerializer):
 class CourseSerializer(serializers.ModelSerializer):
     class Meta:
         model=Course
-        fields=['id', 'topicName', 'topicDescription']
+        fields=['id', 'topicName', 'topicDescription','verified']
         extra_kwargs={
             "topicDescription":{"read_only":True}
         }
@@ -20,9 +20,6 @@ class CourseSerializer(serializers.ModelSerializer):
         cg=Course(topicName=validated_data["topicName"],topicDescription=td)
         cg.save()
         return cg
-
-class GetTopicSerializer(serializers.Serializer):
-    topicName=serializers.CharField()
 
 
 class SubtopicSerializer(serializers.ModelSerializer):
