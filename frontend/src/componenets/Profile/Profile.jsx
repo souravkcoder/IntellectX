@@ -1,11 +1,27 @@
-import { useState } from 'react';
-import { Link, Outlet } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Link, Outlet,useNavigate } from 'react-router-dom';
 import { InputText } from 'primereact/inputtext';
 import avatarImage from '../../images/avator.jpg'; // Replace with the actual path
-
+import { useCookies } from 'react-cookie';
 const Profile = () => {
+    const [token,setToken,removeToken]=useCookies();
+    let final_token=token['mytoken'];
+    let naviagte=useNavigate();
+    useEffect(()=>{
+        if(!token['mytoken']){
+            naviagte('/login')
+        }
+        else{ 
+     
+        }
+    },[token])
+
+    const logout=()=>{
+        removeToken(['mytoken'])
+        
+    }
     const [user, setUser] = useState({
-        name: 'John Doe',
+        name: token['name'],
         avatar: avatarImage,
     });
     const [image, setImage] = useState(null);
@@ -33,6 +49,7 @@ const Profile = () => {
                     <img className="h-20 w-20 rounded-full border-2" src={user.avatar} alt="User Avatar" />
 
                     <label htmlFor="" className='font-semibold text-2xl'>{user.name}</label>
+                    <button type="button" onClick={logout} className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Logout</button>
 
                     <InputText
                         type="file"

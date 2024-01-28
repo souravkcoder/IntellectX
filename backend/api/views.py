@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponse
 from .models import *
 from .serializers import ArticleSerializer,UserSerializer,CourseSerializer,SubtopicSerializer
@@ -29,7 +29,7 @@ class ArticleviewSet(viewsets.ModelViewSet):
     authentication_classes=(TokenAuthentication,)
 
 
-class CourseviewSet(viewsets.ModelViewSet):
+"""class CourseviewSet(viewsets.ModelViewSet):
     queryset=Course.objects.all()
     serializer_class=CourseSerializer
     def post(self, request, format=None):
@@ -37,36 +37,88 @@ class CourseviewSet(viewsets.ModelViewSet):
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)"""
+
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework import status
+from .models import Course
+from .serializers import CourseSerializer
+
+@api_view(['POST'])
+def initialcourse(request, format=None):
+    try:
+        course_name = request.data.get('topicName')
+        existing_course = Course.objects.filter(topicName=course_name).first()
+
+        if existing_course:
+            serializer = CourseSerializer(existing_course)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+        serializer = CourseSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    except Exception as e:
+        return Response(e, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
 
 @api_view(['POST'])
 @authentication_classes([TokenAuthentication])
 def subtopicadd(request):
-    topic_name=request.data['topicName']
-    subtopics=subtopic_generator(topic_name)
-    tpid=Course.objects.get(topicName=topic_name)
-    for i, subtopic in enumerate(subtopics, start=1):
-            topic= f"Subtopic {i}: {subtopic}"
-            topic_des=class_generator(topic)
-            cg=Subtopic(subtopicsName=topic,subtopicDescription=topic_des,topicid=tpid)
+    if 'topicName' not in request.data:
+        return Response({"error": "Missing 'topicName' in request data."}, status=status.HTTP_400_BAD_REQUEST)
+    topic_name = request.data['topicName']
+    tpid = get_object_or_404(Course, topicName=topic_name)
+
+    try:
+        if Subtopic.objects.filter(topicid=tpid).exists():
+            return Response({"error": f"Subtopics already exist for {topic_name}."}, status=status.HTTP_400_BAD_REQUEST)
+        subtopics = subtopic_generator(topic_name)
+        for i, subtopic in enumerate(subtopics, start=1):
+            topic = f"Subtopic {i}: {subtopic}"
+            topic_des = class_generator(topic)
+            cg = Subtopic(subtopicsName=topic, subtopicDescription=topic_des, topicid=tpid)
             cg.save()
-    return Response({"message":"Data Saved Successfully."})
+
+        return Response({"message": "Data Saved Successfully."}, status=status.HTTP_201_CREATED)
+
+    except Exception as e:
+        return Response(e, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+
 
 @api_view(['POST'])
 @authentication_classes([TokenAuthentication])
 def usertakecourse(request):
-    topic_name=request.data['topicName']
-    username=request.data['username']
-    tpid=Course.objects.get(topicName=topic_name)
-    userid=User.objects.get(username=username)
-    res=UserTakeCourse(userid=userid,courseid=tpid)
-    res.save()
-    return Response({"message":"Data Saved Successfully."})
+    try:
+        if 'topicName' not in request.data or 'username' not in request.data:
+            return Response({"error": "Missing 'topicName' or 'username' in request data."}, status=status.HTTP_400_BAD_REQUEST)
+        topic_name= request.data['topicName']
+        username= request.data['username']
+        tpid= get_object_or_404(Course, topicName=topic_name)
+        userid= get_object_or_404(User, username=username)
+
+
+        if UserTakeCourse.objects.filter(userid=userid, courseid=tpid).exists():
+            return Response({"error": "Duplicate Entry"}, status=status.HTTP_400_BAD_REQUEST)
+        user_take_course = UserTakeCourse(userid=userid, courseid=tpid)
+        user_take_course.save()
+
+        return Response({"message": "Data Saved Successfully."}, status=status.HTTP_201_CREATED)
+
+    except Exception as e:
+        return Response(e, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
 
 @api_view(['GET'])
 @authentication_classes([TokenAuthentication])
 def courselist(request):
-    username=request.data['username']
+    username = request.query_params.get('username', None)
     userid=User.objects.get(username=username)
     utc=UserTakeCourse.objects.filter(userid=userid)
     individual_objects=[]

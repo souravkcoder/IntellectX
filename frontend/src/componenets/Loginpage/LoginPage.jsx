@@ -41,7 +41,7 @@ const loginBtn=()=>{
 useEffect(()=>{
     if(token['mytoken']){
         console.log(token['mytoken'])
-        naviagte('/articles')
+        naviagte('/account')
     }
     else{ 
  
