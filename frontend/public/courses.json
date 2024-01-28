@@ -1,0 +1,59 @@
+{
+    "courses": [
+      {
+        "id": 1,
+        "title": "Introduction to Quantum Computing",
+        "picture_url": "https://example.com/quantum_computing.jpg",
+        "description": "Explore the fascinating world of quantum computing and its potential impact on the future of technology."
+      },
+      {
+        "id": 2,
+        "title": "Digital Art and Design Fundamentals",
+        "picture_url": "https://example.com/digital_art.jpg",
+        "description": "Learn the basics of digital art and design, from creating stunning visuals to understanding design principles."
+      },
+      {
+        "id": 3,
+        "title": "Data Science for Beginners",
+        "picture_url": "https://example.com/data_science.jpg",
+        "description": "Get started with data science, covering key concepts such as data analysis, machine learning, and statistical modeling."
+      },
+      {
+        "id": 4,
+        "title": "Creative Writing Workshop",
+        "picture_url": "https://example.com/creative_writing.jpg",
+        "description": "Unlock your creativity and enhance your writing skills in this hands-on creative writing workshop."
+      },
+      {
+        "id": 5,
+        "title": "Introduction to Astrophysics",
+        "picture_url": "https://example.com/astrophysics.jpg",
+        "description": "Embark on a journey through the cosmos, exploring the wonders of astrophysics and celestial phenomena."
+      },
+      {
+        "id": 6,
+        "title": "Web Development Bootcamp",
+        "picture_url": "https://example.com/web_development.jpg",
+        "description": "Master the essentials of web development, covering HTML, CSS, JavaScript, and popular frameworks."
+      },
+      {
+        "id": 7,
+        "title": "Digital Marketing Strategies",
+        "picture_url": "https://example.com/digital_marketing.jpg",
+        "description": "Learn effective digital marketing strategies, from social media campaigns to search engine optimization."
+      },
+      {
+        "id": 8,
+        "title": "Introduction to Robotics",
+        "picture_url": "https://i.ibb.co/r03V7h6/8800992-855.jpg",
+        "description": "Discover the world of robotics, from basic principles to hands-on projects in building and programming robots."
+      },
+      {
+        "id": 9,
+        "title": "Graphic Design Masterclass",
+        "picture_url": "https://example.com/graphic_design.jpg",
+        "description": "Enhance your graphic design skills with advanced techniques, creative concepts, and industry-standard tools."
+      }
+    ]
+  }
+  
