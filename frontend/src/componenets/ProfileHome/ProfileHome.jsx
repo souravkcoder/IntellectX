@@ -1,10 +1,19 @@
 import { Link, useNavigate } from "react-router-dom";
 import axios from 'axios';
-import { useState } from "react";
-
+import { useState,useEffect } from "react";
+import { useCookies } from 'react-cookie';
 const ProfileHome = () => {
+    const [token,setToken,removeToken]=useCookies();
+    let final_token=token['mytoken'];
+    useEffect(()=>{
+        if(!token['mytoken']){
+            naviagte('/login')
+        }
+        else{ 
+     
+        }
+    },[token])
     const [topicName, setTopicName] = useState("");
-    const finalToken = "";
     const body = { topicName };
     const naviagte=useNavigate();
     const handleSearch = async () => {
@@ -14,7 +23,7 @@ const ProfileHome = () => {
             const response = await axios.post('http://127.0.0.1:8000/api/course', body, {
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Token ${finalToken}`
+                    'Authorization': `Token ${final_token}`
                 }
             });
 

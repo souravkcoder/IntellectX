@@ -1,15 +1,26 @@
 // import React from 'react';
-
+import { useEffect } from "react";
+import { useCookies } from 'react-cookie';
 import { Link, useLocation } from "react-router-dom";
 import axios from 'axios';
 const SearchDetails = () => {
+    const [token,setToken,removeToken]=useCookies();
+    let final_token=token['mytoken'];
+    useEffect(()=>{
+        if(!token['mytoken']){
+            naviagte('/login')
+        }
+        else{ 
+     
+        }
+    },[token])
     const location = useLocation();
     console.log(location);
     const topicName=location.state.topicName;
     const topicDescription=location.state.topicDescription;
-    const finalToken = "03d6ac38c60d140670df7c098d588451ecbc69c3";
+    const finalToken = final_token;
     const handleRequest = async () => {
-        const username="souravk";
+        const username=token['name'];
         
         const body = { topicName, username };
         const body2={topicName};

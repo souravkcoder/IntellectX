@@ -132,7 +132,7 @@ def courselist(request):
 @api_view(['GET'])
 @authentication_classes([TokenAuthentication])
 def fullcourse(request):
-    topic_name=request.data['topicName']
+    topic_name=request.query_params.get('topicName', None)
     tpid=Course.objects.get(topicName=topic_name)
     subtopics=Subtopic.objects.filter(topicid=tpid)
     result=SubtopicSerializer(subtopics,many=True)
@@ -141,41 +141,6 @@ def fullcourse(request):
 
 
 
-
-
-class SubtopicGeneratorAPIView(APIView):
-    def post(self, request, *args, **kwargs):
-        topic_name = request.data.get('topicName')
-
-        try:
-            course = Course.objects.get(topicName=topic_name)
-        except Course.DoesNotExist:
-            return Response({'error': f'Course with topicName {topic_name} does not exist'}, status=status.HTTP_404_NOT_FOUND)
-
-        subtopics_data = subtopic_generator(topic_name)
-
-        subtopics = []
-        for subtopic_data in subtopics_data:
-            subtopic_data['topicid'] = course.id
-            serializer = SubtopicSerializer(subtopicsName=subtopic_data,subtopicDescription="topic_des",topicid=course)
-            if serializer.is_valid():
-                serializer.save()
-                subtopics.append(serializer.data)
-            else:
-                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-        return Response({'subtopics': subtopics}, status=status.HTTP_201_CREATED)
-
-class SubtopicviewSet(viewsets.ModelViewSet):
-    queryset=Subtopic.objects.all()
-    serializer_class=SubtopicSerializer
-    def post(self, request, format=None):
-        serializer = SubtopicSerializer(data=request.data)
-        
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 class UserViewSet(viewsets.ModelViewSet):
     queryset=User.objects.all()
