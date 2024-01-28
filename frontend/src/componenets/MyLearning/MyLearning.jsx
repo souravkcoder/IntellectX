@@ -29,8 +29,8 @@ const MyLearning = () => {
   }, []);
 
   return (
-    <div >
-      <div className=" h-screen relative flex flex-col items-center justify-center" style={{ backgroundColor: '#f0f0f5', textAlign: 'center' }}>
+    <div className="h-screen overflow-auto p-5 mt-10">
+      <div className="relative flex flex-col items-center justify-center" style={{ backgroundColor: '#f0f0f5', textAlign: 'center' }}>
         {courses.map((course, index) => (
           <div key={index} className="relative grid grid-cols-2 items-center w-full max-w-[1590px] py-5 mx-auto px-5 border-2 border-solid border-black rounded-xl hover:border-3 hover:shadow-lg mb-4">
             <div>
