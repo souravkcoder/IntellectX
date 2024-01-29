@@ -20,6 +20,7 @@ const SearchDetails = () => {
     const topicDescription=location.state.topicDescription;
     const finalToken = final_token;
     const handleRequest = async () => {
+        alert("Your Course is building. It will be available on your profile after some time.");
         const username=token['name'];
         
         const body = { topicName, username };
@@ -34,18 +35,18 @@ const SearchDetails = () => {
                     'Authorization': `Token ${finalToken}`
                 }
             });
-            console.log(response);
-            // Handle the response data as needed
+            
+            
             const response2 = await axios.post('http://127.0.0.1:8000/api/sub-add', body2, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Token ${finalToken}`
                 }
             });
-            console.log(response2);
+            
 
         } catch (error) {
-            console.error(error);
+            
         }
         
     };
@@ -68,7 +69,7 @@ const SearchDetails = () => {
 
             </div>
                 <div className="flex flex-col items-center">
-                <Link to={"/account"}>
+                <Link to={"/account/mylearning"}>
                 <button onClick={handleRequest} className="my-5 py-4 px-8 bg-cyan-300 shadow-lg shadow-cyan-400/30 bg-transparent hover:bg-teal-500 text-1xl font-semibold rounded-2xl border-2 border-cyan-600/30">Start Learning</button>
                 </Link>
                 

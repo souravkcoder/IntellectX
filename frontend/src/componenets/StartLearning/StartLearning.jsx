@@ -51,7 +51,11 @@ const StartLearning = () => {
             {selectedSubtopic === index && (
               <div className="flex flex-row  gap-5 mt-3">
                 <h3 className="text-2xl font-semibold">Description: </h3>
-                <p className="text-xl text-left">{subtopic.subtopicDescription}</p>
+                <pre className=" font-sans text-xl text-left whitespace-pre-wrap">
+                  {subtopic.subtopicDescription.split('\r\n').map((paragraph, i) => (
+                    <p key={i}>{paragraph}</p>
+                  ))}
+                </pre>
               </div>
             )}
           </div>

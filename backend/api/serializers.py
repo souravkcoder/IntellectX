@@ -26,12 +26,6 @@ class SubtopicSerializer(serializers.ModelSerializer):
     class Meta:
         model=Subtopic
         fields=['id', 'subtopicsName', 'subtopicDescription','topicid']
-        extra_kwargs={
-            "subtopicDescription":{"read_only":True},
-            "topicid":{"read_only":True},
-            "subtopicsName":{"read_only":True},
-
-        }
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:

@@ -1,0 +1,94 @@
+{
+    "categories": [
+      {
+        "id": 1,
+        "title": "Programming",
+        "courses": [
+          {
+            "id": 101,
+            "title": "Introduction to Python",
+            "picture_url": "https://example.com/python.jpg",
+            "description": "Learn the fundamentals of Python programming language."
+          },
+          {
+            "id": 102,
+            "title": "JavaScript for Beginners",
+            "picture_url": "https://example.com/javascript.jpg",
+            "description": "Get started with JavaScript and build interactive web applications."
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "title": "Design",
+        "courses": [
+          {
+            "id": 201,
+            "title": "Graphic Design Basics",
+            "picture_url": "https://example.com/graphic_design.jpg",
+            "description": "Explore the basics of graphic design and visual communication."
+          },
+          {
+            "id": 202,
+            "title": "UI/UX Design Fundamentals",
+            "picture_url": "https://example.com/ui_ux_design.jpg",
+            "description": "Learn the principles of user interface and user experience design."
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "title": "Data Science",
+        "courses": [
+          {
+            "id": 301,
+            "title": "Data Analysis with Pandas",
+            "picture_url": "https://example.com/data_analysis.jpg",
+            "description": "Master data analysis using Python's Pandas library."
+          },
+          {
+            "id": 302,
+            "title": "Machine Learning Basics",
+            "picture_url": "https://example.com/machine_learning.jpg",
+            "description": "Introduction to the fundamentals of machine learning algorithms."
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "title": "Business & Finance",
+        "courses": [
+          {
+            "id": 401,
+            "title": "Financial Planning for Beginners",
+            "picture_url": "https://example.com/financial_planning.jpg",
+            "description": "Learn the basics of financial planning and budgeting."
+          },
+          {
+            "id": 402,
+            "title": "Entrepreneurship Essentials",
+            "picture_url": "https://example.com/entrepreneurship.jpg",
+            "description": "Develop essential skills for starting and growing a successful business."
+          }
+        ]
+      },
+      {
+        "id": 5,
+        "title": "Language Learning",
+        "courses": [
+          {
+            "id": 501,
+            "title": "Spanish for Beginners",
+            "picture_url": "https://example.com/spanish.jpg",
+            "description": "Start your journey in learning the Spanish language with basic conversational skills."
+          },
+          {
+            "id": 502,
+            "title": "Japanese Language Proficiency",
+            "picture_url": "https://example.com/japanese.jpg",
+            "description": "Master Japanese language proficiency, from basic to advanced levels."
+          }
+        ]
+      }
+]
+}

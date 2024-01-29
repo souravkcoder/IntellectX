@@ -12,7 +12,7 @@ admin.site.register(UserTakeCourse, UserTakeCourseAdmin)
 
 class SubtopicInline(admin.TabularInline):
     model = Subtopic
-    extra = 1  # Number of empty forms to display for adding new subtopics
+    extra = 1  
 
 class CourseAdmin(admin.ModelAdmin):
     inlines = [SubtopicInline]

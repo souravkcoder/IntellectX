@@ -48,10 +48,10 @@ const MyLearning = () => {
           <div key={index} className="relative grid grid-cols-2 items-center w-full max-w-[1590px] py-5 mx-auto px-5 border-2 border-solid border-black rounded-xl hover:border-3 hover:shadow-lg mb-4">
             <div>
               <h3 className='text-2xl font-medium'>{course.topicName}</h3>
-              {/* Additional information about the course can be displayed here */}
+              
             </div>
             <div>
-              {/* Update the link to include the course.topicName as a URL parameter */}
+              
               <Link to={`/startlearning?topicName=${encodeURIComponent(course.topicName)}`}>
                 <button className='py-1 md:py-2 px-8 bg-cyan-400 shadow-lg hover:bg-teal-400 text-xl md:text-xl font-semibold rounded-2xl'>Go to Course</button>
               </Link>
