@@ -17,6 +17,7 @@ from rest_framework import viewsets
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
+from django.shortcuts import get_object_or_404
 
 from api.utils import course_generator, subtopic_generator, class_generator
 
@@ -115,67 +116,39 @@ def usertakecourse(request):
         return Response(e, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
+
+
 @api_view(['GET'])
 @authentication_classes([TokenAuthentication])
 def courselist(request):
     username = request.query_params.get('username', None)
-    userid=User.objects.get(username=username)
-    utc=UserTakeCourse.objects.filter(userid=userid)
-    individual_objects=[]
-    for i in utc:
-        courseid=i.courseid
-        course_obj=Course.objects.get(topicName=courseid)
-        individual_objects.append(course_obj)
-    result=CourseSerializer(individual_objects,many=True)
-    return Response({"message":"Data Got Successfully.","data":result.data})
+    if not username:
+        return Response({"message": "Username is required in query parameters."}, status=400)
+
+    user = get_object_or_404(User, username=username)
+    user_courses = UserTakeCourse.objects.filter(userid=user)
+    courses = Course.objects.filter(id__in=[user_course.courseid_id for user_course in user_courses])
+    serializer = CourseSerializer(courses, many=True)
+    return Response({"message": "Data retrieved successfully.", "data": serializer.data})
+
+
 
 @api_view(['GET'])
 @authentication_classes([TokenAuthentication])
 def fullcourse(request):
-    topic_name=request.data['topicName']
-    tpid=Course.objects.get(topicName=topic_name)
-    subtopics=Subtopic.objects.filter(topicid=tpid)
-    result=SubtopicSerializer(subtopics,many=True)
-    return Response({"message":"Data Got Successfully.","data":result.data})
+    topic_name = request.query_params.get('topicName', None)
+    if not topic_name:
+        return Response({"message": "Topic name is required in query parameters."}, status=400)
+
+    course = get_object_or_404(Course, topicName=topic_name)
+    subtopics = Subtopic.objects.filter(topicid=course)
+    serializer = SubtopicSerializer(subtopics, many=True)
+    return Response({"message": "Data retrieved successfully.", "data": serializer.data})
 
 
 
 
 
-
-class SubtopicGeneratorAPIView(APIView):
-    def post(self, request, *args, **kwargs):
-        topic_name = request.data.get('topicName')
-
-        try:
-            course = Course.objects.get(topicName=topic_name)
-        except Course.DoesNotExist:
-            return Response({'error': f'Course with topicName {topic_name} does not exist'}, status=status.HTTP_404_NOT_FOUND)
-
-        subtopics_data = subtopic_generator(topic_name)
-
-        subtopics = []
-        for subtopic_data in subtopics_data:
-            subtopic_data['topicid'] = course.id
-            serializer = SubtopicSerializer(subtopicsName=subtopic_data,subtopicDescription="topic_des",topicid=course)
-            if serializer.is_valid():
-                serializer.save()
-                subtopics.append(serializer.data)
-            else:
-                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-        return Response({'subtopics': subtopics}, status=status.HTTP_201_CREATED)
-
-class SubtopicviewSet(viewsets.ModelViewSet):
-    queryset=Subtopic.objects.all()
-    serializer_class=SubtopicSerializer
-    def post(self, request, format=None):
-        serializer = SubtopicSerializer(data=request.data)
-        
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 class UserViewSet(viewsets.ModelViewSet):
     queryset=User.objects.all()

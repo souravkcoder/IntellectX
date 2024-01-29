@@ -39,24 +39,24 @@ const StartLearning = () => {
 
 
 
-                        <div className="flex flex-row items-center  gap-3 border-1 border-solid bg-slate-400 rounded-md w-full p-5">
-                            <button onClick={() => setShowTopic2(!showTopic2)}><FontAwesomeIcon icon={faChevronDown} className='me-4' /></button>
-                            <h3 className="text-2xl font-semibold">Subtopic-2</h3>
-                            <p className="text-xl font-medium">Topic</p>
-                        </div>
-                        {
+            <div className="flex flex-row items-center  gap-3 border-1 border-solid bg-slate-400 rounded-md w-full p-5">
+              <button onClick={() => setShowTopic2(!showTopic2)}><FontAwesomeIcon icon={faChevronDown} className='me-4' /></button>
+              <h3 className="text-2xl font-semibold">Subtopic-2</h3>
+            <p className="text-xl font-medium">Topic</p>
+              </div>
+            {
                             showTopic2 && <div className="flex flex-row  gap-5 mt-3">
                                 <h3 className="text-2xl font-semibold">Discription: </h3>
                                 <p className="text-xl text-left">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Maxime eveniet a obcaecati amet expedita, reiciendis adipisci soluta itaque provident nobis, odit ratione magni. Distinctio aliquam, a voluptas dignissimos libero, facere officia explicabo tenetur ipsa corrupti illum veritatis quasi. Quos nam iure consequuntur quisquam, quibusdam voluptatem dolorum itaque voluptatibus perspiciatis delectus rerum quo sapiente inventore amet minus nesciunt ipsum odio. Sit sunt officiis ut magnam iure facere assumenda tempore ad accusamus eaque voluptatum autem provident placeat, dolores repellat minus doloribus officia vel ea unde soluta minima sed. Nobis fugit, at voluptate sit praesentium totam dolores dignissimos est, sint ipsa debitis similique!</p>
-                            </div>
-                        }
-                    </div>
+          </div>
+        }
+      </div>
 
 
-                </div>
-            }
+    </div>
+}
         </div >
-    );
+  );
 };
 
 export default StartLearning;

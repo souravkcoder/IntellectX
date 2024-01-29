@@ -18,7 +18,7 @@ import {CookiesProvider} from 'react-cookie'
 import Profile from './componenets/Profile/Profile';
 import ProfileHome from './componenets/ProfileHome/ProfileHome';
 import MyLearning from './componenets/MyLearning/MyLearning';
-import Search from './componenets/Search/Search';
+//import Search from './componenets/Search/Search';
 import StartLearning from './componenets/StartLearning/StartLearning';
 const router = createBrowserRouter([
   {

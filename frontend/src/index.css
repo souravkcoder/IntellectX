@@ -6,11 +6,13 @@
 #root {
     
     overflow-x: hidden;
-<<<<<<< HEAD
     /* overflow-y: hidden; */
+<<<<<<< HEAD
 =======
   
 >>>>>>> d57fea0453f43e95527c31d6627b3637eecdb2cb
+=======
+>>>>>>> ff98fc276e18829ac20982dbce2c7746902d1440
     max-width: 100%;
     margin: 0 auto;
     padding: 0rem;
