@@ -20,7 +20,7 @@ const Courses = () => {
 
     return (
         <div className="container mx-auto mt-24 p-4">
-            <h2 className="text-3xl font-bold mb-12">Top Courses</h2>
+            <h2 className="text-3xl font-bold mb-12 mx-auto">Top Courses</h2>
             <div className="grid grid-cols-3 gap-8">
                 {courses.map((course) => {
                     const { id, title, picture_url, description } = course;

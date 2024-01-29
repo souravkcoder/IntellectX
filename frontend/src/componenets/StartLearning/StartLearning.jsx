@@ -9,6 +9,7 @@ const StartLearning = () => {
     // const [show, setShow] = useState(false);
     const [showTopic1, setShowTopic1] = useState(false);
     const [showTopic2, setShowTopic2] = useState(false);
+    
     return (
         <div className="h-auto relative flex flex-col "
             style={{ backgroundColor: '#f0f0f5', textAlign: 'center' }}>

@@ -65,7 +65,7 @@ useEffect(()=>{
                     </div>
  
 
-                    <div className="bg-cyan-600 flex flex-col justify-center mb-6">
+                    <div className="bg-slate-50 flex flex-col justify-center mb-6">
                             <h2 className='text-4xl dark:text-white font-bold text-center mt-8'>Welcome Back</h2>
                             <p>Please Enter your credentials to <span className='font-semibold'>Login</span></p>
                             {incorr}
