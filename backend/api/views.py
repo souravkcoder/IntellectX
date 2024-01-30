@@ -30,30 +30,45 @@ class ArticleviewSet(viewsets.ModelViewSet):
     authentication_classes=(TokenAuthentication,)
 
 
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
-from rest_framework import status
-from .models import Course
-from .serializers import CourseSerializer
-
 @api_view(['POST'])
+@authentication_classes([TokenAuthentication])
 def initialcourse(request, format=None):
     try:
         course_name = request.data.get('topicName')
+        course_name=course_name.capitalize()
         existing_course = Course.objects.filter(topicName=course_name).first()
 
         if existing_course:
             serializer = CourseSerializer(existing_course)
             return Response(serializer.data, status=status.HTTP_200_OK)
 
-        serializer = CourseSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        topic_description = course_generator(course_name)
+
+        if topic_description != "Sorry, This is not a learning Topic.":
+            new_course = Course(topicName=course_name, topicDescription=topic_description)
+            new_course.save()
+
+            response_data = {
+                'id': new_course.id,
+                'topicName': new_course.topicName,
+                'topicDescription': new_course.topicDescription,
+                'verified': new_course.verified
+            }
+
+            return Response(response_data, status=status.HTTP_201_CREATED)
+        else:
+            new_course = Course(topicName=course_name, topicDescription=topic_description)
+            response_data = {
+                'id': new_course.id,
+                'topicName': new_course.topicName,
+                'topicDescription': new_course.topicDescription,
+                'verified': new_course.verified
+            }
+            return Response(response_data, status=status.HTTP_201_CREATED)
 
     except Exception as e:
-        return Response(e, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
 
 
 
@@ -63,6 +78,7 @@ def subtopicadd(request):
     if 'topicName' not in request.data:
         return Response({"error": "Missing 'topicName' in request data."}, status=status.HTTP_400_BAD_REQUEST)
     topic_name = request.data['topicName']
+    topic_name=topic_name.capitalize()
     tpid = get_object_or_404(Course, topicName=topic_name)
 
     try:
@@ -90,6 +106,7 @@ def usertakecourse(request):
         if 'topicName' not in request.data or 'username' not in request.data:
             return Response({"error": "Missing 'topicName' or 'username' in request data."}, status=status.HTTP_400_BAD_REQUEST)
         topic_name= request.data['topicName']
+        topic_name=topic_name.capitalize()
         username= request.data['username']
         tpid= get_object_or_404(Course, topicName=topic_name)
         userid= get_object_or_404(User, username=username)
@@ -127,6 +144,7 @@ def courselist(request):
 @authentication_classes([TokenAuthentication])
 def fullcourse(request):
     topic_name = request.query_params.get('topicName', None)
+    topic_name=topic_name.capitalize()
     if not topic_name:
         return Response({"message": "Topic name is required in query parameters."}, status=400)
 

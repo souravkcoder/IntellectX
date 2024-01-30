@@ -51,7 +51,7 @@ def subtopic_generator(inp):
 def class_generator(inp):
 
     
-    msg2=f"Now, as a course instructor, teach me the following topic : {inp}. Explain this in a very easy way, clearify every detail and teach me the whole topic step by step. provide me if any example/code needed."
+    msg2=f"Now, as a course instructor, teach me the following topic : {inp}. Explain this in a very easy way, clearify every detail and teach me the whole topic step by step. provide me if any example or if it is a programming related topics, give some code for explanation. Do not generate any greetings,thanks, sure type words, just generate pure teaching content."
     response = openai.ChatCompletion.create(
     model="gpt-3.5-turbo",
     messages=[

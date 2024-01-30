@@ -1,13 +1,21 @@
 // import React from 'react';
-
 // import { Link } from "react-router-dom";
+import {useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 import NavLink from "../NavLink/NavLink";
 import Banner from "../Banner/Banner";
 import Footer from "../Footer/Footer";
 import Categories from "../Categories/Categories";
 import Courses from "../Courses/Courses";
-
+import { useCookies } from 'react-cookie';
 const Home = () => {
+    const [token, setToken, removeToken] = useCookies();
+    const navigate = useNavigate();
+    useEffect(() => {
+        if (token['mytoken']) {
+            navigate('/account/pHome');
+        }
+    }, [token]);
     return (
         <div className="h-screen relative flex flex-col items-center"
             style={{ textAlign: 'center' }}>
