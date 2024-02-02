@@ -15,7 +15,6 @@ const SearchDetails = () => {
         }
     },[token])
     const location = useLocation();
-    console.log(location);
     const topicName=location.state.topicName;
     const topicDescription=location.state.topicDescription;
     const finalToken = final_token;

@@ -1,18 +1,11 @@
-from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponse
 from .models import *
-from .serializers import ArticleSerializer,UserSerializer,CourseSerializer,SubtopicSerializer
-from django.http import JsonResponse
-from rest_framework.parsers import JSONParser
-from django.views.decorators.csrf import csrf_exempt
+from .serializers import *
 
-from django.http import Http404
-from rest_framework.views import APIView
+
 from rest_framework.decorators import api_view,authentication_classes
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.permissions import IsAuthenticated
-
 from rest_framework import viewsets
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.authtoken.views import ObtainAuthToken
@@ -23,7 +16,7 @@ from api.utils import course_generator, subtopic_generator, class_generator
 
 from django.contrib.auth.models import User
 # Create your views here.
-
+"""This is created for learning purposes"""
 class ArticleviewSet(viewsets.ModelViewSet):
     queryset=Article.objects.all()
     serializer_class=ArticleSerializer
@@ -129,31 +122,25 @@ def usertakecourse(request):
 @authentication_classes([TokenAuthentication])
 def courselist(request):
     username = request.query_params.get('username', None)
-    if not username:
-        return Response({"message": "Username is required in query parameters."}, status=400)
-
-    user = get_object_or_404(User, username=username)
-    user_courses = UserTakeCourse.objects.filter(userid=user)
-    courses = Course.objects.filter(id__in=[user_course.courseid_id for user_course in user_courses])
-    serializer = CourseSerializer(courses, many=True)
-    return Response({"message": "Data retrieved successfully.", "data": serializer.data})
-
-
+    userid=User.objects.get(username=username)
+    utc=UserTakeCourse.objects.filter(userid=userid)
+    individual_objects=[]
+    for i in utc:
+        courseid=i.courseid
+        course_obj=Course.objects.get(topicName=courseid)
+        individual_objects.append(course_obj)
+    result=CourseSerializer(individual_objects,many=True)
+    return Response({"message":"Data Got Successfully.","data":result.data})
 
 @api_view(['GET'])
 @authentication_classes([TokenAuthentication])
 def fullcourse(request):
-    topic_name = request.query_params.get('topicName', None)
+    topic_name=request.query_params.get('topicName', None)
     topic_name=topic_name.capitalize()
-    if not topic_name:
-        return Response({"message": "Topic name is required in query parameters."}, status=400)
-
-    course = get_object_or_404(Course, topicName=topic_name)
-    subtopics = Subtopic.objects.filter(topicid=course)
-    serializer = SubtopicSerializer(subtopics, many=True)
-    return Response({"message": "Data retrieved successfully.", "data": serializer.data})
-
-
+    tpid=Course.objects.get(topicName=topic_name)
+    subtopics=Subtopic.objects.filter(topicid=tpid)
+    result=SubtopicSerializer(subtopics,many=True)
+    return Response({"message":"Data Got Successfully.","data":result.data})
 
 
 
